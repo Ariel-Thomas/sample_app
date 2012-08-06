@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   before_filter :admin_user,     only: :destroy
 
   def show
-  	@user = User.find(params[:id])
+    @user = User.find(params[:id])
     @microposts = @user.microposts.paginate(page: params[:page])
   end
 
@@ -21,13 +21,13 @@ class UsersController < ApplicationController
       redirect_to root_path and return
     end
 
-  	@user = User.new(params[:user])
-  	if @user.save
+    @user = User.new(params[:user])
+    if @user.save
       sign_in @user
-  		flash[:success] = "Welcome to the Sample App!"
-  		redirect_to @user
-  	else
-  		render 'new'
+      flash[:success] = "Welcome to the Sample App!"
+      redirect_to @user
+    else
+      render 'new'
     end
   end
 

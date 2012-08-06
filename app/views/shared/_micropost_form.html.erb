@@ -1,7 +1,30 @@
 <%= form_for(@micropost) do |f| %>
-	<%= render 'shared/error_messages', object: f.object %>
-	<div class="field">
-		<%= f.text_area :content, placeholder: "Compose new micropost..." %>
-	</div>
-	<%= f.submit "Post", class: "btn btn-large btn-primary" %>
+  <%= render 'shared/error_messages', object: f.object %>
+  <div class="field">
+    <%= f.text_area :content, placeholder: "Compose new micropost..." %>
+  </div>
+  <div class="counter">140 characters remain</div>
+  <%= f.submit "Post", class: "btn btn-large btn-primary" %>
 <% end %>
+
+<script>
+  var $textarea = $('#micropost_content');
+  var $counter = $('div.counter');
+  
+  var lastText = $textarea.val();
+  var remainingChars = 140;
+
+  function keyCount(){
+    remainingChars = 140 - $textarea.val().length;
+    if (remainingChars < 0){
+      $textarea.val(lastText);
+      remainingChars = 0;
+    }
+
+    $counter.text(remainingChars + " characters remain");
+    lastText = $textarea.val();
+  };
+
+  $textarea.keydown(keyCount);
+  $textarea.keyup(keyCount);
+</script>
