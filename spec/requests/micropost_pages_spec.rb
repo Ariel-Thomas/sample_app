@@ -44,18 +44,22 @@ describe "MicropostPages" do
   end
 
   describe "micropost sidebar" do
+    before { visit root_path }
+
     describe "has base character count" do
-      before { visit root_path }
       it { should have_content("140 characters remain") }
     end
 
-    describe "updates the character count" do
-      before do
-        visit root_path
-        fill_in "micropost_content", with: "a"
-      end
+    describe "updates the character count", js: true do
+      before { fill_in "micropost_content", with: "a" }
 
       it { should have_content("139 characters remain") }
+    end
+
+    describe "character count will not go under 0", js: true do
+      before { fill_in "micropost_content", with: "a" * 141 }
+
+      it { should have_content("0 characters remain") }
     end
   end
 end
